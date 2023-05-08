@@ -16,11 +16,20 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from rest_framework.routers import SimpleRouter
+from rest_framework.routers import SimpleRouter, Route
+from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView, TokenVerifyView
 
 from main.views import CopchViewSet, PolyViewSet, ColdViewSet
 
-router = SimpleRouter()
+
+class CustomReadOnlyRouter(SimpleRouter):
+    """
+    A router for read-only APIs, which doesn't use trailing slashes.
+    """
+    routes = [Route(url=r'{prefix}', mapping={'get': 'list'}, name='{basename}-list', detail=False, initkwargs={'suffix': 'List'})]
+
+
+router = CustomReadOnlyRouter()
 
 router.register(r"copch", CopchViewSet)
 router.register(r"poly", PolyViewSet)
@@ -28,6 +37,7 @@ router.register(r"cold", ColdViewSet)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+
 ]
 
 urlpatterns += router.urls

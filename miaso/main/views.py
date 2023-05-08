@@ -1,8 +1,10 @@
 from django.shortcuts import render
 from rest_framework import viewsets, permissions
+from rest_framework.decorators import action
 
 from .models import Copch, Poly, Cold
 from .serializers import CopchSerializer, PolySerializer, ColdSerializer
+
 
 
 # Create your views here.
@@ -12,6 +14,8 @@ class CopchViewSet(viewsets.ModelViewSet):
         permissions.AllowAny
     ]
     serializer_class = CopchSerializer
+
+
 
 
 class PolyViewSet(viewsets.ModelViewSet):
@@ -28,3 +32,4 @@ class ColdViewSet(viewsets.ModelViewSet):
         permissions.AllowAny
     ]
     serializer_class = ColdSerializer
+
