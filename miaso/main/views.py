@@ -16,8 +16,6 @@ class CopchViewSet(viewsets.ModelViewSet):
     serializer_class = CopchSerializer
 
 
-
-
 class PolyViewSet(viewsets.ModelViewSet):
     queryset = Poly.objects.all()
     permission_classes = [

@@ -14,12 +14,14 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path
 from rest_framework.routers import SimpleRouter, Route
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView, TokenVerifyView
 
 from main.views import CopchViewSet, PolyViewSet, ColdViewSet
+from miaso import settings
 
 
 class CustomReadOnlyRouter(SimpleRouter):
@@ -36,8 +38,12 @@ router.register(r"poly", PolyViewSet)
 router.register(r"cold", ColdViewSet)
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    path('admin/', admin.site.urls)
 
 ]
 
 urlpatterns += router.urls
+
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
