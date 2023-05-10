@@ -1,4 +1,5 @@
 # Подключаем статус
+from django.urls import reverse_lazy
 from rest_framework import status
 # Подключаем компонент для ответа
 from rest_framework.response import Response
@@ -21,6 +22,7 @@ class RegistrUserView(CreateAPIView):
     # Добавляем права доступа
     permission_classes = [AllowAny]
 
+
     # Создаём метод для создания нового пользователя
     def post(self, request, *args, **kwargs):
         # Добавляем UserRegistrSerializer
@@ -40,3 +42,4 @@ class RegistrUserView(CreateAPIView):
             data = serializer.errors
             # Возвращаем ошибку
             return Response(data)
+

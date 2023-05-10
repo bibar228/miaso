@@ -21,7 +21,6 @@ class UserRegistrSerializer(serializers.ModelSerializer):
             email=self.validated_data['email'],  # Назначаем Email
             username=self.validated_data['username'],  # Назначаем Логин
             name=self.validated_data["name"],
-            lastname=self.validated_data["lastname"],
             phone=self.validated_data["phone"]
         )
         # Проверяем на валидность пароль

@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    "drf_yasg",
     'djoser',
     'rest_framework',
     "main",
@@ -160,4 +161,3 @@ CORS_ORIGIN_WHITELIST = (
 
 AUTH_USER_MODEL = "users.User"
 
-LOGIN_REDIRECT_URL = '/'
