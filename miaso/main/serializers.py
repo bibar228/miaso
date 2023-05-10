@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from .models import Copch, Poly, Cold
+from main.models import Copch, Poly, Cold
 
 
 class CopchSerializer(serializers.ModelSerializer):

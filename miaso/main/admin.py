@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Copch, Poly, Cold
+from main.models import Copch, Poly, Cold
 
 
 # Register your models here.

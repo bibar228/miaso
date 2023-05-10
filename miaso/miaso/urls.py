@@ -16,33 +16,20 @@ Including another URLconf
 """
 from django.conf.urls.static import static
 from django.contrib import admin
-from django.urls import path
-from rest_framework.routers import SimpleRouter, Route
-from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView, TokenVerifyView
+from django.urls import path, include
 
-from main.views import CopchViewSet, PolyViewSet, ColdViewSet
+from main.views import router_main
 from miaso import settings
-
-
-class CustomReadOnlyRouter(SimpleRouter):
-    """
-    A router for read-only APIs, which doesn't use trailing slashes.
-    """
-    routes = [Route(url=r'{prefix}', mapping={'get': 'list'}, name='{basename}-list', detail=False, initkwargs={'suffix': 'List'})]
-
-
-router = CustomReadOnlyRouter()
-
-router.register(r"copch", CopchViewSet)
-router.register(r"poly", PolyViewSet)
-router.register(r"cold", ColdViewSet)
+from users.views import RegistrUserView
 
 urlpatterns = [
-    path('admin/', admin.site.urls)
-
+    path('admin/', admin.site.urls),
+    path('api-auth', include('rest_framework.urls')),
+    path('auth/', include('djoser.urls')),
+    path('registr/', RegistrUserView.as_view(), name='registr')
 ]
 
-urlpatterns += router.urls
+urlpatterns += router_main.urls
 
 
 if settings.DEBUG:
