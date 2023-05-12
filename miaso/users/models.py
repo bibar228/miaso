@@ -35,10 +35,6 @@ class MyUserManager(BaseUserManager):
         # Возвращаем нового созданного пользователя
         return self._create_user(email, username, password)
 
-    # Делаем метод для создание админа сайта
-    def create_superuser(self, email, username, password):
-        # Возвращаем нового созданного админа
-        return self._create_user(email, username, password, is_staff=True, is_superuser=True)
 
 
 # Создаём класс User

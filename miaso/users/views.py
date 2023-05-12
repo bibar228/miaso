@@ -1,4 +1,7 @@
 # Подключаем статус
+import os
+
+from django.shortcuts import render
 from django.urls import reverse_lazy
 from rest_framework import status
 # Подключаем компонент для ответа
@@ -11,6 +14,7 @@ from rest_framework.permissions import AllowAny
 from .models import User
 # Подключаем UserRegistrSerializer
 from .serializers import UserRegistrSerializer
+from .telega_auth import HashCheck
 
 
 # Создаём класс RegistrUserView
@@ -42,4 +46,13 @@ class RegistrUserView(CreateAPIView):
             data = serializer.errors
             # Возвращаем ошибку
             return Response(data)
+
+#def telega(request):
+    #return render(request, "telega.html")
+
+
+def base(request):
+    return render(request, "base.html")
+
+
 
