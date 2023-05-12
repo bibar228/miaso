@@ -8,19 +8,16 @@ from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, Permis
 # Создаем класс менеджера пользователей
 class MyUserManager(BaseUserManager):
     # Создаём метод для создания пользователя
-    def _create_user(self, email, username, password, **extra_fields):
+    def _create_user(self, email, password, **extra_fields):
         # Проверяем есть ли Email
         if not email:
             # Выводим сообщение в консоль
             raise ValueError("Вы не ввели Email")
         # Проверяем есть ли логин
-        if not username:
-            # Выводим сообщение в консоль
-            raise ValueError("Вы не ввели Логин")
+
         # Делаем пользователя
         user = self.model(
             email=self.normalize_email(email),
-            username=username,
             **extra_fields,
         )
         # Сохраняем пароль
@@ -31,29 +28,28 @@ class MyUserManager(BaseUserManager):
         return user
 
     # Делаем метод для создание обычного пользователя
-    def create_user(self, email, username, password):
+    def create_user(self, email, password):
         # Возвращаем нового созданного пользователя
-        return self._create_user(email, username, password)
+        return self._create_user(email, password)
 
 
 
 # Создаём класс User
 class User(AbstractBaseUser, PermissionsMixin):
     id = models.AutoField(primary_key=True, unique=True)  # Идентификатор
-    username = models.CharField(max_length=50, unique=True, blank=False)  # Логин
     email = models.EmailField(max_length=100, unique=True, blank=False)  # Email
-    name = models.CharField(max_length=50, blank=False)
+    name = models.CharField(max_length=50, blank=True)
     lastname = models.CharField(max_length=50, default="", blank=True)
     phoneNumberRegex = RegexValidator(regex=r"^((8|\+7)[\- ]?)?(\(?\d{3}\)?[\- ]?)?[\d\- ]{7,10}$")
     phone = models.CharField(validators=[phoneNumberRegex], max_length=11, unique=True, blank=False)
     is_active = models.BooleanField(default=True)  # Статус активации
     is_staff = models.BooleanField(default=False)  # Статус админа
 
-    USERNAME_FIELD = 'username'  # Идентификатор для обращения
-    REQUIRED_FIELDS = ['email']  # Список имён полей для Superuser
+    USERNAME_FIELD = 'email'  # Идентификатор для обращения
+
 
     objects = MyUserManager()  # Добавляем методы класса MyUserManager
 
     # Метод для отображения в админ панели
     def __str__(self):
-        return f"{self.username} ---------- {self.email}"
+        return self.email

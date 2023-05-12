@@ -44,8 +44,8 @@ INSTALLED_APPS = [
     "main",
     'corsheaders',
     "users",
-    'django_telegram_login'
-
+    'django_telegram_login',
+    "basket"
 
 ]
 
@@ -167,3 +167,5 @@ TELEGRAM_BOT_TOKEN = '5926919919:AAFCHFocMt_pdnlAgDo-13wLe4h_tHO0-GE'
 TELEGRAM_LOGIN_REDIRECT_URL = 'https://t.me/PORN_L1FE'
 
 LOGIN_REDIRECT_URL = 'http://127.0.0.1:8000'
+
+CART_SESSION_ID = 'basket'

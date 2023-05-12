@@ -42,7 +42,8 @@ urlpatterns = [
     path('registr/', RegistrUserView.as_view(), name='registr'),
     #path("", telega),
     path("", base),
-    path("accounts/", include("django.contrib.auth.urls"))
+    path("accounts/", include("django.contrib.auth.urls")),
+    path(r'^cart/', include('basket.urls'))
 ]
 
 

@@ -12,14 +12,13 @@ class UserRegistrSerializer(serializers.ModelSerializer):
         # Поля модели которые будем использовать
         model = User
         # Назначаем поля которые будем использовать
-        fields = ['username', 'email', 'password', 'password2', "name", "lastname", "phone"]
+        fields = ['email', 'password', 'password2', "name", "lastname", "phone"]
 
     # Метод для сохранения нового пользователя
     def save(self, *args, **kwargs):
         # Создаём объект класса User
         user = User(
             email=self.validated_data['email'],  # Назначаем Email
-            username=self.validated_data['username'],  # Назначаем Логин
             name=self.validated_data["name"],
             phone=self.validated_data["phone"]
         )
