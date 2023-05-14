@@ -16,12 +16,12 @@ Including another URLconf
 """
 from django.conf.urls.static import static
 from django.contrib import admin
-from django.urls import path, include
+from django.urls import path, include, re_path
 from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
-from main.views import router_main
+from main.views import CopchViewSet, ColdViewSet, PolyViewSet
 from miaso import settings
-from users.views import RegistrUserView, base
+from users.views import RegistrUserView, base, LoginView
 
 schema_view = get_schema_view(
     openapi.Info(
@@ -35,19 +35,23 @@ schema_view = get_schema_view(
 
 
 urlpatterns = [
+    path("copch/", CopchViewSet.as_view({'get': 'list'})),
+    path("cold/", ColdViewSet.as_view({'get': 'list'})),
+    path("poly/", PolyViewSet.as_view({'get': 'list'})),
     path("swagger/", schema_view.with_ui("swagger", cache_timeout=0), name="schema-swagger-ui"),
     path('admin/', admin.site.urls),
+    path("auth/", include("djoser.urls")),
+    re_path(r"^auth/", include("djoser.urls.authtoken")),
     path('api-auth', include('rest_framework.urls')),
     path('auth/', base),
     path('registr/', RegistrUserView.as_view(), name='registr'),
     #path("", telega),
     path("", base),
     path("accounts/", include("django.contrib.auth.urls")),
-    path(r'^cart/', include('basket.urls'))
+    path(r'cart/', include('basket.urls')),
+    path("log/", LoginView.as_view())
 ]
 
-
-urlpatterns += router_main.urls
 
 
 if settings.DEBUG:

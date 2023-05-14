@@ -1,10 +1,11 @@
 from django.shortcuts import render
-from rest_framework import viewsets, permissions
-from rest_framework.decorators import action
-from rest_framework.routers import SimpleRouter, Route
+from rest_framework import viewsets, permissions, status
+from rest_framework.decorators import action, api_view
 
+from drf_yasg.utils import swagger_auto_schema
 from main.models import Copch, Poly, Cold
 from main.serializers import CopchSerializer, PolySerializer, ColdSerializer
+from rest_framework.response import Response
 
 
 
@@ -33,15 +34,6 @@ class ColdViewSet(viewsets.ModelViewSet):
     serializer_class = ColdSerializer
 
 
-class CustomReadOnlyRouter(SimpleRouter):
-    """
-    A router for read-only APIs, which doesn't use trailing slashes.
-    """
-    routes = [Route(url=r'{prefix}', mapping={'get': 'list'}, name='{basename}-list', detail=False, initkwargs={'suffix': 'List'})]
 
 
-router_main = CustomReadOnlyRouter()
 
-router_main.register(r"copch", CopchViewSet)
-router_main.register(r"poly", PolyViewSet)
-router_main.register(r"cold", ColdViewSet)

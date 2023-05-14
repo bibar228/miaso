@@ -1,7 +1,7 @@
 from rest_framework import serializers
 # Подключаем модель user
 from .models import User
-
+from django.contrib.auth import authenticate
 
 class UserRegistrSerializer(serializers.ModelSerializer):
     # Поле для повторения пароля
@@ -36,3 +36,16 @@ class UserRegistrSerializer(serializers.ModelSerializer):
         user.save()
         # Возвращаем нового пользователя
         return user
+
+
+class LoginSerializer(serializers.Serializer):
+    email = serializers.CharField()
+    password = serializers.CharField()
+    def validate(self, attrs):
+        user = authenticate(email=attrs['email'],
+        password=attrs['password'])
+        if not user:
+            raise serializers.ValidationError('Incorrect email or password.')
+        if not user.is_active:
+            raise serializers.ValidationError('User is disabled.')
+        return {'user': user}
