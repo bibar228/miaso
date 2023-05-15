@@ -48,7 +48,6 @@ urlpatterns = [
     #path("", telega),
     path("", base),
     path("accounts/", include("django.contrib.auth.urls")),
-    path(r'cart/', include('basket.urls')),
     path("log/", LoginView.as_view())
 ]
 
