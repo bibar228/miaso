@@ -32,6 +32,12 @@ class MyUserManager(BaseUserManager):
         # Возвращаем нового созданного пользователя
         return self._create_user(email, password)
 
+    def create_superuser(self, email, password):
+        user = self.create_user(email, password)
+        user.is_staff = True
+        user.is_superuser = True
+        user.save(using=self._db)
+        return user
 
 
 # Создаём класс User
