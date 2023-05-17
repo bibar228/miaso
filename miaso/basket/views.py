@@ -12,16 +12,13 @@ from basket.models import OrderItem
 from basket.serializers import OrderSerializer
 
 
-#class OrderView(viewsets.ModelViewSet):
-#    queryset = OrderItem.objects.all()
-#    authentication_classes = (TokenAuthentication,)
-#    permission_classes = (IsAuthenticated,)
-#    serializer_class = OrderSerializer
+class OrderView(viewsets.ModelViewSet):
 
- #   def get(self, request):
-#       user_orders = OrderItem.objects.filter(user=re  quest.user)
- #       return HttpResponse(user_orders)
+    authentication_classes = (TokenAuthentication,)
+    permission_classes = (IsAuthenticated,)
+    serializer_class = OrderSerializer
 
-def order_view(request):
-    user_orders = OrderItem.objects.filter(user=request.user.id).values()
-    return HttpResponse(user_orders)
+
+    def get_queryset(self):
+        user_orders = OrderItem.objects.filter(user=self.request.user)
+        return user_orders

@@ -1,3 +1,4 @@
+from django.core.validators import RegexValidator
 from django.db import models
 
 from main.models import Copch, Cold, Poly
@@ -8,7 +9,8 @@ class Order(models.Model):
     user = models.ForeignKey(User, on_delete=models.PROTECT)
     first_name = models.CharField(max_length=50)
     last_name = models.CharField(max_length=50, blank=True)
-    email = models.EmailField()
+    phoneNumberRegex = RegexValidator(regex=r"^((8|\+7)[\- ]?)?(\(?\d{3}\)?[\- ]?)?[\d\- ]{7,10}$")
+    phone = models.CharField(validators=[phoneNumberRegex], max_length=11)
     comment = models.CharField(max_length=500, blank=True)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
@@ -33,7 +35,7 @@ class OrderItem(models.Model):
     cold_product = models.ForeignKey(Cold, related_name='order_items', on_delete=models.SET_NULL, null=True, blank=True)
     poly_product = models.ForeignKey(Poly, related_name='order_items', on_delete=models.SET_NULL, null=True, blank=True)
     price = models.DecimalField(max_digits=10, decimal_places=2)
-    quantity = models.PositiveIntegerField(default=1)
+    quantity = models.DecimalField(max_digits=10, decimal_places=3)
 
     class Meta:
         ordering = ('order',)
@@ -44,7 +46,5 @@ class OrderItem(models.Model):
         return '{}'.format(self.id)
 
     def get_cost(self):
-        return self.price * self.quantity
+        return self.price
 
-    def get_queryset(self):
-        return self.objects.filter(user=self.request.user)

@@ -9,4 +9,4 @@ class OrderSerializer(serializers.ModelSerializer):
         # Поля модели которые будем использовать
         model = OrderItem
         # Назначаем поля которые будем использовать
-        fields = "__all__"
+        fields = ["user_id", "order_id", "copch_product_id", "cold_product_id", "poly_product_id", "price", "quantity"]
