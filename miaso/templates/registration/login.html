@@ -1,24 +1,19 @@
-<!doctype html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
-</head>
-<body>
-  <h2>Log In</h2>
+{% extends  'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block main %}
+<div class="card">
+<div class="card-body">
+<h4 class="card-title">Log in to your account</h4>
 
 <form method="post">
+{% csrf_token %}
+<input type="hidden" name="next" value="{{ next }}">
 
-  {% csrf_token %}
+{{ form|crispy }}
 
-  {{ form.as_p }}
-
-  <button type="submit">Log In</button>
-
+<button type="submit" class="btn btn-primary btn-block">Log in</button>
 </form>
-
-</body>
-</html>
+</div>
+</div>
+{% endblock %}

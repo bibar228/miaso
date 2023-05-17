@@ -1,41 +1,35 @@
-<!DOCTYPE html>
 
-<html>
-
-  <head>
-
-    <title>Django blog</title>
-
-    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400"
-
-    rel="stylesheet">
-
-  </head>
-
-  <body>
-
-    <div>
+<!doctype  html>
+<html  lang="en">
+<head>
+<link  rel="stylesheet"  href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"  integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"  crossorigin="anonymous">
+<title>Django Authentication Example</title>
+</head>
+<body>
+  <div  class="container">
+    <div  class="row justify-content-center">
+      <div  class="col-4">
+      <h1  class="text-center">Django Authentication Example</h1>
+      {% block main %}
+      {% endblock %}
+              {% if user.is_authenticated %}
 
 
-      {% if user.is_authenticated %}
-
-
-        <p>Hi {{ user.email }}!</p>
+        <p class="text-center">Hi {{ user.email }}!</p>
 
       {% else %}
 
-        <p>You are not logged in.</p>
+        <p class="text-center">You are not logged in.</p>
 
-        <a>Log In</a>
+        <a class="text-center">Log In</a>
 
       {% endif %}
 
     {% block content %}
 
     {% endblock content %}
-
+      </div>
     </div>
-
-  </body>
-
+  </div>
+</body>
 </html>

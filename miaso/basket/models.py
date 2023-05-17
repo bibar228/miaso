@@ -1,9 +1,11 @@
 from django.db import models
 
 from main.models import Copch, Cold, Poly
+from users.models import User
 
 
 class Order(models.Model):
+    user = models.ForeignKey(User, on_delete=models.PROTECT)
     first_name = models.CharField(max_length=50)
     last_name = models.CharField(max_length=50, blank=True)
     email = models.EmailField()
@@ -18,13 +20,14 @@ class Order(models.Model):
         verbose_name_plural = 'Данные заказчика'
 
     def __str__(self):
-        return f'Заказ №{self.id} от {self.first_name} - {self.email}. Общая стоимость: {self.get_total_cost()} руб.'
+        return f'Заказ №{self.id} от {self.user}. Общая стоимость: {self.get_total_cost()} руб.'
 
     def get_total_cost(self):
         return sum(item.get_cost() for item in self.items.all())
 
 
 class OrderItem(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     order = models.ForeignKey(Order, related_name='items', on_delete=models.CASCADE)
     copch_product = models.ForeignKey(Copch, related_name='order_items', on_delete=models.SET_NULL, null=True, blank=True)
     cold_product = models.ForeignKey(Cold, related_name='order_items', on_delete=models.SET_NULL, null=True, blank=True)
@@ -42,3 +45,6 @@ class OrderItem(models.Model):
 
     def get_cost(self):
         return self.price * self.quantity
+
+    def get_queryset(self):
+        return self.objects.filter(user=self.request.user)
