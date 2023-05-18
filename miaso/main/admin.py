@@ -5,7 +5,8 @@ from main.models import Copch, Poly, Cold
 
 # Register your models here.
 class CopchAdmin(admin.ModelAdmin):
-    list_display = ("id", "name_prod", "unit", "price")
+    list_display = ("id", "name_prod", "unit", "price", "img")
+    list_editable = ["name_prod", "unit", 'price', "img"]
     #list_display_links = ("id", "name")
     #search_fields = ("id", "name", "description")
 
