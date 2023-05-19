@@ -11,13 +11,15 @@ class CopchAdmin(admin.ModelAdmin):
     #search_fields = ("id", "name", "description")
 
 class PolyAdmin(admin.ModelAdmin):
-    list_display = ("id", "name_prod", "unit", "price")
+    list_display = ("id", "name_prod", "unit", "price", "img")
+    list_editable = ["name_prod", "unit", 'price', "img"]
     #list_display_links = ("id", "name")
     #search_fields = ("id", "name", "description")
 
 
 class ColdAdmin(admin.ModelAdmin):
-    list_display = ("id", "name_prod", "unit", "price")
+    list_display = ("id", "name_prod", "unit", "price", "img")
+    list_editable = ["name_prod", "unit", 'price', "img"]
     #list_display_links = ("id", "name")
     #search_fields = ("id", "name", "description")
 

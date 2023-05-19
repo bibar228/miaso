@@ -1,6 +1,5 @@
 # Подключаем статус
-
-
+import requests
 from django.http import HttpResponse
 from django.utils.decorators import method_decorator
 
@@ -16,7 +15,7 @@ from rest_framework.generics import CreateAPIView
 from rest_framework.views import APIView
 
 # Подключаем модель User
-from .models import User
+from .models import User, AuthtokenToken
 # Подключаем UserRegistrSerializer
 from .serializers import UserRegistrSerializer
 from .telega_auth import HashCheck
@@ -69,10 +68,28 @@ class LoginView(APIView):
     permission_classes = (AllowAny,)
     authentication_classes = ()
 
+
     def post(self, request):
         serializer = LoginSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         user = serializer.validated_data['user']
         login(request, user)
-        return Response({"Logged in": {"id": user.id, "email": user.email}})
+        client_token = AuthtokenToken.objects.filter(user=request.user)
+        HttpResponse().set_cookie('Authorization', client_token[0].key, max_age=None)
+        return HttpResponse(f"Logged in {user} {client_token[0].key}")
 
+
+def get_tok(request):
+    client_token = AuthtokenToken.objects.filter(user=request.user)[0].key
+    html = HttpResponse(client_token)
+    html.set_cookie('Token', client_token, max_age = None)
+
+    return html
+
+def delete_co(request):
+    if request.COOKIES.get('WWW-Authenticate'):
+       response = HttpResponse("<h1>dataflair<br>Cookie deleted</h1>")
+       response.delete_cookie("WWW-Authenticate")
+    else:
+        response = HttpResponse("<h1>dataflair</h1>need to create cookie before deleting")
+    return response

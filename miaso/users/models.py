@@ -59,3 +59,13 @@ class User(AbstractBaseUser, PermissionsMixin):
     # Метод для отображения в админ панели
     def __str__(self):
         return self.email
+
+
+class AuthtokenToken(models.Model):
+    key = models.CharField(primary_key=True, max_length=40)
+    created = models.DateTimeField()
+    user = models.OneToOneField(User, models.DO_NOTHING)
+
+    class Meta:
+        managed = False
+        db_table = 'authtoken_token'

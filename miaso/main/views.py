@@ -26,6 +26,7 @@ class PolyViewSet(viewsets.ModelViewSet):
     serializer_class = PolySerializer
 
 
+
 class ColdViewSet(viewsets.ModelViewSet):
     queryset = Cold.objects.all()
     permission_classes = [

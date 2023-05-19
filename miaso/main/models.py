@@ -11,8 +11,6 @@ class Copch(models.Model):
         return self.name_prod
 
 
-
-
 class Poly(models.Model):
     name_prod = models.CharField(verbose_name="Название продукта", max_length=100)
     unit = models.CharField(verbose_name="Ед. измерения", max_length=20)
