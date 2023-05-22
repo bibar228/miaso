@@ -6,13 +6,12 @@ from users.models import User
 
 class OrderSerializer(serializers.ModelSerializer):
     user = serializers.CharField(source='user.email')
-    copch_product = serializers.CharField(source='copch_product.name_prod')
-    cold_product = serializers.CharField(source='cold_product.name_prod')
-    poly_product = serializers.CharField(source='poly_product.name_prod')
+    product = serializers.CharField(source='product.name')
+
     class Meta:
         model = OrderItem
         # Назначаем поля которые будем использовать
-        fields = ["user", "order_id", "copch_product", "cold_product", "poly_product", "price", "quantity"]
+        fields = ["user", "order_id", "product", "price", "quantity"]
 
 
 class PostOrderSerializer(serializers.Serializer):
@@ -21,7 +20,7 @@ class PostOrderSerializer(serializers.Serializer):
     class Meta:
         model = Order
         # Назначаем поля которые будем использовать
-        fields = ["user", "order_id", "copch_product", "cold_product", "poly_product", "price", "quantity"]
+        fields = ["user", "order_id", "product", "price", "quantity"]
 
     def save(self, *args, **kwargs):
         # Создаём объект класса User

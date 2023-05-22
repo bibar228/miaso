@@ -45,7 +45,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     id = models.AutoField(primary_key=True, unique=True)  # Идентификатор
     email = models.EmailField(max_length=100, unique=True, blank=False)  # Email
     name = models.CharField(max_length=50, blank=True)
-    lastname = models.CharField(max_length=50, default="", blank=True)
+    lastname = models.CharField(max_length=50, blank=True)
     phoneNumberRegex = RegexValidator(regex=r"^((8|\+7)[\- ]?)?(\(?\d{3}\)?[\- ]?)?[\d\- ]{7,10}$")
     phone = models.CharField(validators=[phoneNumberRegex], max_length=11, unique=True, blank=False)
     is_active = models.BooleanField(default=True)  # Статус активации

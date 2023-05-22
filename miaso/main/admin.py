@@ -1,29 +1,18 @@
 from django.contrib import admin
 
-from main.models import Copch, Poly, Cold
+from .models import Category, Product
 
 
-# Register your models here.
-class CopchAdmin(admin.ModelAdmin):
-    list_display = ("id", "name_prod", "unit", "price", "img")
-    list_editable = ["name_prod", "unit", 'price', "img"]
-    #list_display_links = ("id", "name")
-    #search_fields = ("id", "name", "description")
+class CategoryAdmin(admin.ModelAdmin):
+    list_display = ['name', "id"]
 
-class PolyAdmin(admin.ModelAdmin):
-    list_display = ("id", "name_prod", "unit", "price", "img")
-    list_editable = ["name_prod", "unit", 'price', "img"]
-    #list_display_links = ("id", "name")
-    #search_fields = ("id", "name", "description")
+admin.site.register(Category, CategoryAdmin)
 
 
-class ColdAdmin(admin.ModelAdmin):
-    list_display = ("id", "name_prod", "unit", "price", "img")
-    list_editable = ["name_prod", "unit", 'price', "img"]
-    #list_display_links = ("id", "name")
-    #search_fields = ("id", "name", "description")
+class ProductAdmin(admin.ModelAdmin):
+    list_display = ['name', "id", 'price', "unit", 'available', "img", "category"]
+    list_filter = ['available']
+    list_editable = ['price', 'available']
 
 
-admin.site.register(Copch, CopchAdmin)
-admin.site.register(Poly, PolyAdmin)
-admin.site.register(Cold, ColdAdmin)
+admin.site.register(Product, ProductAdmin)

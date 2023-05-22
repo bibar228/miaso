@@ -83,13 +83,12 @@ def get_tok(request):
     client_token = AuthtokenToken.objects.filter(user=request.user)[0].key
     html = HttpResponse(client_token)
     html.set_cookie('Token', client_token, max_age = None)
-
     return html
 
 def delete_co(request):
-    if request.COOKIES.get('WWW-Authenticate'):
+    if request.COOKIES.get('Token'):
        response = HttpResponse("<h1>dataflair<br>Cookie deleted</h1>")
-       response.delete_cookie("WWW-Authenticate")
+       response.delete_cookie("Token")
     else:
         response = HttpResponse("<h1>dataflair</h1>need to create cookie before deleting")
     return response

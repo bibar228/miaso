@@ -22,13 +22,14 @@ from drf_yasg import openapi
 
 from basket import urls
 from main.views import CopchViewSet, ColdViewSet, PolyViewSet
+
 from miaso import settings
 from users.views import RegistrUserView, base, LoginView, get_tok, delete_co
 
 schema_view = get_schema_view(
     openapi.Info(
         title="Django miaso",
-        default_version="v1",
+        default_version="v2",
         description="Description",
         license=openapi.License(name="BSD License"),
     ),
@@ -56,7 +57,6 @@ urlpatterns = [
 ]
 
 urlpatterns += urls.urlpatterns
-
 
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
