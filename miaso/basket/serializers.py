@@ -1,7 +1,8 @@
+from django.core.validators import RegexValidator
 from rest_framework import serializers
 
 from basket.models import OrderItem, Order
-from users.models import User
+from users.models import User, AuthtokenToken
 
 
 class OrderSerializer(serializers.ModelSerializer):
@@ -14,23 +15,33 @@ class OrderSerializer(serializers.ModelSerializer):
         fields = ["user", "order_id", "product", "price", "quantity"]
 
 
-class PostOrderSerializer(serializers.Serializer):
+class CreateOrderSerializer(serializers.Serializer):
+    first_name = serializers.CharField()
+    token_user = serializers.CharField()
+    address = serializers.CharField()
+    phone = serializers.CharField()
+    comment = serializers.CharField()
 
-    user = serializers.CharField()
+    #user = AuthtokenToken.objects.values().filter(key=user)
     class Meta:
         model = Order
         # Назначаем поля которые будем использовать
-        fields = ["user", "order_id", "product", "price", "quantity"]
+        fields = ["first_name", "token_user", "address", "phone", "comment"]
 
     def save(self, *args, **kwargs):
-        # Создаём объект класса User
-        user = Order(
-            user=self.validated_data['user'],  # Назначаем Email
+        user_number = AuthtokenToken.objects.filter(key=self.validated_data["token_user"]).get().user_id
+        user_name = User.objects.filter(id=user_number).get().email
 
+        order = Order(
+            first_name=self.validated_data['first_name'],
+            user=user_name,
+            address=self.validated_data["address"],
+            phone=self.validated_data["phone"],
+            comment=self.validated_data["comment"]
         )
-        # Сохраняем пользователя
-        user.save()
 
+        order.save()
+        return order
 
 #order = serializers.CharField()
 #    copch_product = serializers.CharField()

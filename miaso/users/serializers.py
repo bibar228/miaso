@@ -43,15 +43,13 @@ class LoginSerializer(serializers.Serializer):
     password = serializers.CharField()
 
     class Meta:
-        # Поля модели которые будем использовать
         model = User
-        # Назначаем поля которые будем использовать
         fields = ['email', 'password']
 
     def validate(self, attrs):
         user = authenticate(email=attrs['email'], password=attrs['password'])
         if not user:
-            raise serializers.ValidationError('Incorrect email or password.')
+            raise serializers.ValidationError({"resultCode": 1, "message": 'Incorrect email or password.'})
         if not user.is_active:
-            raise serializers.ValidationError('User is disabled.')
+            raise serializers.ValidationError({"resultCode": 1, "message": "User is disabled."})
         return {'user': user, "password": attrs['password']}

@@ -1,4 +1,6 @@
 # Подключаем статус
+import types
+
 import requests
 from django.http import HttpResponse
 from django.utils.decorators import method_decorator
@@ -21,7 +23,7 @@ from .serializers import UserRegistrSerializer
 from .telega_auth import HashCheck
 from django.contrib.auth import authenticate, login
 from .serializers import LoginSerializer
-from rest_framework.permissions import AllowAny
+from rest_framework.permissions import AllowAny, IsAuthenticated
 from django.views.decorators.csrf import csrf_protect
 
 
@@ -74,21 +76,6 @@ class LoginView(APIView):
         serializer.is_valid(raise_exception=True)
         user = serializer.validated_data['user']
         login(request, user)
-        client_token = AuthtokenToken.objects.filter(user=request.user)
-        HttpResponse().set_cookie('Authorization', client_token[0].key, max_age=None)
-        return HttpResponse(f"Logged in {user} {client_token[0].key}")
+        return Response({"resultCode": [0], "message": [f"Logged in {user}"]})
 
 
-def get_tok(request):
-    client_token = AuthtokenToken.objects.filter(user=request.user)[0].key
-    html = HttpResponse(client_token)
-    html.set_cookie('Token', client_token, max_age = None)
-    return html
-
-def delete_co(request):
-    if request.COOKIES.get('Token'):
-       response = HttpResponse("<h1>dataflair<br>Cookie deleted</h1>")
-       response.delete_cookie("Token")
-    else:
-        response = HttpResponse("<h1>dataflair</h1>need to create cookie before deleting")
-    return response

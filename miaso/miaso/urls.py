@@ -24,7 +24,7 @@ from basket import urls
 from main.views import CopchViewSet, ColdViewSet, PolyViewSet
 
 from miaso import settings
-from users.views import RegistrUserView, base, LoginView, get_tok, delete_co
+from users.views import RegistrUserView, base, LoginView
 
 schema_view = get_schema_view(
     openapi.Info(
@@ -51,9 +51,7 @@ urlpatterns = [
     #path("", telega),
     path("", base),
     path("accounts/", include("django.contrib.auth.urls")),
-    path("log/", LoginView.as_view()),
-    path("get/", get_tok),
-    path("delete/", delete_co)
+    path("log/", LoginView.as_view())
 ]
 
 urlpatterns += urls.urlpatterns
