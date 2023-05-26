@@ -5,14 +5,25 @@ from basket.models import OrderItem, Order
 from users.models import User, AuthtokenToken
 
 
-class OrderSerializer(serializers.ModelSerializer):
-    user = serializers.CharField(source='user.email')
+class OrderItemSerializer(serializers.ModelSerializer):
     product = serializers.CharField(source='product.name')
 
     class Meta:
         model = OrderItem
         # Назначаем поля которые будем использовать
-        fields = ["user", "order_id", "product", "price", "quantity"]
+        fields = ["order_id", "product", "price", "quantity"]
+
+    def save(self, *args, **kwargs):
+
+        order = OrderItem(
+            order=self.validated_data['first_name'],
+            product=self.validated_data["address"],
+            price=self.validated_data["phone"],
+            quantity=self.validated_data["comment"]
+        )
+
+        order.save()
+        return order
 
 
 class CreateOrderSerializer(serializers.Serializer):
