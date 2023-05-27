@@ -6,20 +6,19 @@ from users.models import User, AuthtokenToken
 
 
 class OrderItemSerializer(serializers.ModelSerializer):
-    product = serializers.CharField(source='product.name')
 
     class Meta:
         model = OrderItem
-        # Назначаем поля которые будем использовать
-        fields = ["order_id", "product", "price", "quantity"]
+        fields = ["user", "order", "product", "price", "quantity"]
 
     def save(self, *args, **kwargs):
 
         order = OrderItem(
-            order=self.validated_data['first_name'],
-            product=self.validated_data["address"],
-            price=self.validated_data["phone"],
-            quantity=self.validated_data["comment"]
+            user=self.validated_data['user'],
+            order=self.validated_data['order'],
+            product=self.validated_data["product"],
+            price=self.validated_data["price"],
+            quantity=self.validated_data["quantity"]
         )
 
         order.save()
@@ -30,13 +29,13 @@ class CreateOrderSerializer(serializers.Serializer):
     first_name = serializers.CharField()
     token_user = serializers.CharField()
     address = serializers.CharField()
-    phone = serializers.CharField()
+    phoneNumberRegex = RegexValidator(regex=r"^((8|\+7)[\- ]?)?(\(?\d{3}\)?[\- ]?)?[\d\- ]{7,10}$")
+    phone = serializers.CharField(validators=[phoneNumberRegex], max_length=11)
     comment = serializers.CharField()
 
-    #user = AuthtokenToken.objects.values().filter(key=user)
+
     class Meta:
         model = Order
-        # Назначаем поля которые будем использовать
         fields = ["first_name", "token_user", "address", "phone", "comment"]
 
     def save(self, *args, **kwargs):
