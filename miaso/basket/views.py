@@ -57,15 +57,16 @@ class CreateOrderItemView(CreateAPIView):
             serializer.is_valid(raise_exception=True)
             serializer.save()
 
-            character_order.append(f"{Product.objects.get(id=i['product']).name}, Количество - {i['quantity']}, Ориентировочная цена - {i['price']} руб.")
+            character_order.append(f"{Product.objects.get(id=i['product']).name}, Количество - {i['quantity']}кг., Ориентировочная цена - {i['price']} руб.")
 
 
         chat_id = -695765690
         bot = telebot.TeleBot(telega_token)
         user_orders = Order.objects.get(id=request.data[0]["order"])
         message = f"{user_orders}\nИмя - {user_orders.first_name}\nАдресс - {user_orders.address}\nТелефон - {user_orders.phone}\nКомментарий к заказу - {user_orders.comment}"
-        for i in character_order:
-            message += "\n" + i
+        message += "\n\nСостав заказа:"
+        for i in range(len(character_order)):
+            message += f"\n{str(i+1)}. {character_order[i]}"
         bot.send_message(chat_id, message)
         return HttpResponse("Success orderitem")
 
