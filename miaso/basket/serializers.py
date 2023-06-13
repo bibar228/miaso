@@ -29,7 +29,7 @@ class CreateOrderSerializer(serializers.Serializer):
     first_name = serializers.CharField()
     token_user = serializers.CharField()
     address = serializers.CharField()
-    phoneNumberRegex = RegexValidator(regex=r"^((8|\+7)[\- ]?)?(\(?\d{3}\)?[\- ]?)?[\d\- ]{7,10}$")
+    phoneNumberRegex = RegexValidator(regex=r"^((8|\+7)[\- ]?)?(\(?\d{3}\)?[\- ]?)?[\d\- ]{11}$")
     phone = serializers.CharField(validators=[phoneNumberRegex], max_length=11)
     comment = serializers.CharField()
 

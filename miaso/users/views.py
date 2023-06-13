@@ -62,6 +62,7 @@ class RegistrUserView(CreateAPIView):
     #return render(request, "telega.html")
 
 
+
 def base(request):
     return render(request, "base.html")
 

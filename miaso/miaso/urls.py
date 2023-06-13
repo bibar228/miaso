@@ -38,20 +38,19 @@ schema_view = get_schema_view(
 
 
 urlpatterns = [
-    path("copch/", CopchViewSet.as_view({'get': 'list'})),
-    path("cold/", ColdViewSet.as_view({'get': 'list'})),
-    path("poly/", PolyViewSet.as_view({'get': 'list'})),
+    path("goods/copch/", CopchViewSet.as_view({'get': 'list'})),
+    path("goods/cold/", ColdViewSet.as_view({'get': 'list'})),
+    path("goods/poly/", PolyViewSet.as_view({'get': 'list'})),
     path("swagger/", schema_view.with_ui("swagger", cache_timeout=0), name="schema-swagger-ui"),
     path('admin/', admin.site.urls),
-    path("auth/", include("djoser.urls")),
-    re_path(r"^auth/", include("djoser.urls.authtoken")),
+    #path("auth/", include("djoser.urls")),
+    re_path("auth/", include("djoser.urls.authtoken")),
     path('api-auth', include('rest_framework.urls')),
-    path('auth/', base),
-    path('registr/', RegistrUserView.as_view(), name='registr'),
+    path('auth/registr/', RegistrUserView.as_view(), name='registr'),
     #path("", telega),
     path("", base),
-    path("accounts/", include("django.contrib.auth.urls")),
-    path("log/", LoginView.as_view())
+    #path("accounts/", include("django.contrib.auth.urls")),
+    path("auth/log/", LoginView.as_view())
 ]
 
 urlpatterns += urls.urlpatterns
